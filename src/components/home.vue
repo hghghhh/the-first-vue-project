@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <div class="runningImages">
-      <mt-swipe :auto="4000">
+      <mt-swipe :auto="3000">
         <mt-swipe-item v-for="item in runningImgList" :key="item.url">
-          <!-- <img :src="item.url" alt=""> -->
+          <img :src="item.picUrl" alt="">
         </mt-swipe-item>
       </mt-swipe>
     </div>
@@ -62,10 +62,9 @@ export default {
   },
   methods: {
     getRunningImg () {
-      this.$http.get('https://www.apiopen.top/meituApi?page=1').then(result =>{
-        if( result.body.code === 200){
-          console.log(result.body);
-          this.runningImgList = result.body.data;
+      this.$http.get('http://api.tianapi.com/meinv/', {params : {key:'15632ad0534191c2eee477cf3de945e1',num:3}}).then(result =>{
+        if( result.body.code === 200 ){
+          this.runningImgList = result.body.newslist;
         }else{
           Toast('Failed to get img');
         }
@@ -82,6 +81,10 @@ export default {
 .runningImages {
   width: 100%;
   height: 200px;
+}
+.runningImages img{
+  width: 100%;
+  height: 100%;
 }
 
 .mui-grid-view.mui-grid-9 {
