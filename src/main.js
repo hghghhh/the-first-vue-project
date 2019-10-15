@@ -14,6 +14,7 @@ Vue.use(VueRouter);
 Vue.use(vueResource);
 
 Vue.http.options.root = 'http://api.tianapi.com';
+Vue.http.options.emulateJSON = true;
 Vue.filter('dataFormat', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
     return moment(dataStr).format(pattern)
 })

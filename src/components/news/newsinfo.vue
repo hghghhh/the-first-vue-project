@@ -16,7 +16,7 @@
 
   <!-- 内容区域 -->
     <div class="content">
-      <a :href="this.newsInfo.url">点击查看详情页</a>
+      <a :href="this.newsInfo.url">点击该区域查看详情</a>
     </div>
 
   <!-- 评论区域 -->
@@ -79,7 +79,10 @@ export default {
     color: #226aff;
     font-size: 14px;
   }
-  .content{
+  .content a{
+    line-height: 1000px;
+    text-align: center;
+    display: block;
     height: 1000px;
     background-color: #ccc;
   }

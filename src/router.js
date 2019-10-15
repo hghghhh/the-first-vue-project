@@ -6,6 +6,7 @@ import shoppingCar from './components/tabbar/shoppingCar.vue';
 import vip from './components/tabbar/vip.vue';
 import newslist from './components/news/newslist.vue';
 import newsinfo from './components/news/newsinfo.vue';
+import photoList from './components/photos/photoList.vue';
 
 
 
@@ -17,7 +18,8 @@ var router = new Vuerouter({
         { path:"/shoppingCar", component:shoppingCar },
         { path:"/vip", component:vip },
         { path:"/home/newslist", component:newslist },
-        { path:"/home/newsinfo/:id", component:newsinfo }
+        { path:"/home/newsinfo/:id", component:newsinfo },
+        { path:"/home/photoList" , component:photoList }
     ],
     linkActiveClass:'mui-active'
 });
