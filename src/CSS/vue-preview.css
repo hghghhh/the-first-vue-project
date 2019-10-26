@@ -1,0 +1,11 @@
+.thumbs figure{
+    margin: 0;
+    padding: 0;
+    display:inline-block;
+}
+.thumbs figure img {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    box-shadow: 0 0 8px #999;
+}

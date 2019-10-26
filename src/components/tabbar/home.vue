@@ -2,7 +2,7 @@
   <div class="home">
     <div class="runningImages">
       <mt-swipe :auto="3000">
-        <mt-swipe-item v-for="item in runningImgList" :key="item.url">
+        <mt-swipe-item v-for="item in runningImgList" :key="item.title">
           <img :src="item.picUrl" alt="">
         </mt-swipe-item>
       </mt-swipe>
@@ -12,20 +12,20 @@
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
         <router-link  to="/home/newslist">
           <img src="../../images/menu1.png" alt />
-          <div class="mui-media-body">新闻资讯</div>
+          <div class="mui-media-body">综合新闻</div>
         </router-link>
       </li>
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
         <router-link to="/home/photoList">
           <img src="../../images/menu2.png" alt />
-          <div class="mui-media-body">图片分享</div>
+          <div class="mui-media-body">分类新闻</div>
         </router-link>
       </li>
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-        <a href="#">
+        <router-link to="/home/shoppingList">
           <img src="../../images/menu3.png" alt />
           <div class="mui-media-body">商品购买</div>
-        </a>
+        </router-link>
       </li>
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
         <a href="#">
@@ -64,6 +64,7 @@ export default {
     getRunningImg () {
       this.$http.get('meinv/', {params : {key:'15632ad0534191c2eee477cf3de945e1',num:3}}).then(result =>{
         if( result.body.code === 200 ){
+          console.log(result.body.newslist);
           this.runningImgList = result.body.newslist;
         }else{
           Toast('Failed to get img');

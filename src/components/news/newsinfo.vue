@@ -7,7 +7,7 @@
 
     <!-- 子标题 -->
     <p class="message">
-      <span>发表时间：{{ this.newsInfo.mtime }}</span>
+      <span>发表时间：{{ this.newsInfo.mtime | dataFormat('YYYY-MM-DD') }}</span>
       <span>来源：{{ this.newsInfo.source }}</span>
     </p>
 
