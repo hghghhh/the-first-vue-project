@@ -1,11 +1,7 @@
 <template>
   <div class="home">
     <div class="runningImages">
-      <mt-swipe :auto="3000">
-        <mt-swipe-item v-for="item in runningImgList" :key="item.title">
-          <img :src="item.picUrl" alt="">
-        </mt-swipe-item>
-      </mt-swipe>
+      <swiper :runningImgList="runningImgList"></swiper>
     </div>
 
     <ul class="mui-table-view mui-grid-view mui-grid-9">
@@ -51,6 +47,7 @@
 
 <script>
 import { Toast } from 'mint-ui';
+import swiper from '../subcomponents/swiper.vue'
 export default {
   data() {
     return {
@@ -64,14 +61,17 @@ export default {
     getRunningImg () {
       this.$http.get('meinv/', {params : {key:'15632ad0534191c2eee477cf3de945e1',num:3}}).then(result =>{
         if( result.body.code === 200 ){
-          console.log(result.body.newslist);
-          this.runningImgList = result.body.newslist;
+          this.runningImgList = result.body.newslist
         }else{
           Toast('Failed to get img');
         }
       })
     }
   },
+
+  components:{
+    swiper
+  }
 };
 </script>
 
@@ -79,14 +79,7 @@ export default {
 .home {
   background-color: #fff;
 }
-.runningImages {
-  width: 100%;
-  height: 200px;
-}
-.runningImages img{
-  width: 100%;
-  height: 100%;
-}
+
 
 .mui-grid-view.mui-grid-9 {
   background-color: #fff;

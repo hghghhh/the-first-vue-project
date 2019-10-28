@@ -1,55 +1,114 @@
 <template>
   <div class="shopping-container">
-    <div class="shopitem">
-      <img src="../../images/图1.jpg" alt />
-      <h1>Redmi Note7 满血骁龙660 小米 红米</h1>
+    <div
+      class="shopitem"
+      v-for="item in shoppingList"
+      :key="item.title"
+      @click="toShoppingInfo(item.id)"
+     
+    >
+      <img :src="item.picUrl">
+      <h1>{{ item.title }}</h1>
       <div class="info">
         <p class="price">
-          <span class="now">￥4399</span>
-          <span class="last">￥5699</span>
+          <span class="now">￥{{ item.nowPrice }}</span>
+          <span class="last">￥{{ item.lastPrice }}</span>
         </p>
         <p class="message">
-          <span>热卖中</span>
-          <span>剩60件</span>
+          <span>{{ item.sell }}</span>
+          <span>剩{{ item.number }}件</span>
         </p>
       </div>
     </div>
-
-    <div class="shopitem">
-      <img src="../../images/图1.jpg" alt />
-      <h1>Redmi Note7 满血骁龙660 小米 红米</h1>
-      <div class="info">
-        <p class="price">
-          <span class="now">￥4399</span>
-          <span class="last">￥5699</span>
-        </p>
-        <p class="message">
-          <span>热卖中</span>
-          <span>剩60件</span>
-        </p>
-      </div>
-    </div>
-
-    <div class="shopitem">
-      <img src="../../images/图1.jpg" alt />
-      <h1>Redmi Note7 满血骁龙660 小米 红米</h1>
-      <div class="info">
-        <p class="price">
-          <span class="now">￥4399</span>
-          <span class="last">￥5699</span>
-        </p>
-        <p class="message">
-          <span>热卖中</span>
-          <span>剩60件</span>
-        </p>
-      </div>
-    </div>
+    <mt-button
+      @click="getMoreShoppingList"
+      type="danger"
+      size="large"
+      v-if="this.pageindex < 5"
+    >加载更多</mt-button>
   </div>
 </template>
 
 
 <script>
-export default {};
+import shoppingInfoVue from './shoppingInfo.vue';
+localStorage.setItem("ShoppingListPageindex",1)
+export default {
+  data() {
+    return {
+      shoppingList: [],
+      pageindex:localStorage.getItem("ShoppingListPageindex")
+    };
+  },
+
+  methods: {
+    getshoppingList() {
+      this.$http
+        .get("nba/", {
+          params: {
+            key: "15632ad0534191c2eee477cf3de945e1",
+            num: 9 * this.pageindex
+          }
+        })
+        .then(result => {
+        //     console.log(this.pageindex);
+        //   if (result.body.code === 200) {
+        //     if (this.pageindex === 1) {
+        //       result.body.newslist.forEach((element, index) => {
+        //         element.id = index;
+        //       });
+        //       this.shoppingList = result.body.newslist;
+        //     } else {
+        //         var newnum = this.pageindex * 11;
+        //         var oldnum = (this.pageindex - 1) * 11;
+        //         var moreShoppingList = result.body.newslist.slice(oldnum, newnum);
+        //         moreShoppingList.forEach((e, i) => {
+        //             e.id = (this.pageindex - 1) * 11 + i;
+        //         });
+        //         console.log(moreShoppingList,this.pageindex);
+        //         this.shoppingList = this.shoppingList.concat(moreShoppingList);
+        //     }
+        //   }
+        
+
+            if(result.body.code === 200){
+                result.body.newslist.forEach((e,i) => {
+                    e.sell = "热卖中"
+                    e.nowPrice = 4399
+                    e.lastPrice = 5499
+                    e.number = 60
+                    e.id = i
+                })
+
+                 this.shoppingList = result.body.newslist
+            }
+        });
+    },
+
+    getMoreShoppingList() {
+        this.pageindex++
+        localStorage.setItem("ShoppingListPageindex", this.pageindex)
+        this.getshoppingList()
+    },
+
+    toShoppingInfo(id) {
+        //第一种方式，传字符串
+        // this.$router.push("/home/shoppingInfo/" + id)
+        // 第二种方式,传对象
+        // this.$router.push({ path:"/home/shoppingInfo/" + id })
+        // 第三种方式，传命名路由
+        this.$router.push({ name:'shoppingInfo' , params:{ id }})
+        // 第四种方式，带查询参数,变成 /home/shoppingInfo/?id=n
+        // this.$router.push({ path: '/home/shoppingInfo/', query: { id }})
+
+
+    }
+  },
+
+  created() {
+    this.getshoppingList();
+  }
+};
 </script>
 
 
@@ -78,9 +137,9 @@ export default {};
     }
     .info {
       background-color: #eee;
-      p{
-          margin: 0;
-          padding: 5px;
+      p {
+        margin: 0;
+        padding: 5px;
       }
       .price {
         .now {
@@ -95,9 +154,9 @@ export default {};
         }
       }
       .message {
-          display: flex;
-          justify-content: space-between;
-          font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
       }
     }
   }
