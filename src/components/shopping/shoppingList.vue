@@ -74,8 +74,8 @@ export default {
             if(result.body.code === 200){
                 result.body.newslist.forEach((e,i) => {
                     e.sell = "热卖中"
-                    e.nowPrice = 4399
-                    e.lastPrice = 5499
+                    e.nowPrice = 4399 + i
+                    e.lastPrice = 5499 + i
                     e.number = 60
                     e.id = i
                 })

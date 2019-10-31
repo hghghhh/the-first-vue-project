@@ -2,7 +2,11 @@
 <template>
   <div class="APPcontent">
     <!-- 头部区域 -->
-    <mt-header fixed title="是你豪哥的第一个vue项目"></mt-header>
+    <mt-header fixed title="是你豪哥的第一个vue项目">
+      <span slot="left" @click="goback">
+        <mt-button icon="back" v-show="flag">返回</mt-button>
+      </span>
+    </mt-header>
 
     <!-- 中间区域 -->
     <transition>
@@ -21,13 +25,13 @@
       </router-link>
       <router-link class="mui-tab-item-hg" to="/shoppingCar">
         <span class="mui-icon mui-icon-extra mui-icon-extra-cart">
-          <span class="mui-badge" id="badge">0</span>
+          <span class="mui-badge" id="badge">{{this.$store.getters.getAllCount}}</span>
         </span>
         <span class="mui-tab-label">购物车</span>
       </router-link>
-      <router-link class="mui-tab-item-hg" to="/search">
+      <router-link class="mui-tab-item-hg" to="/setting">
         <span class="mui-icon mui-icon-gear"></span>
-        <span class="mui-tab-label">搜索</span>
+        <span class="mui-tab-label">设置</span>
       </router-link>
     </nav>
   </div>
@@ -37,16 +41,38 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      shopNum: this.$store.state.shoppingNum,
+      flag: false
+    };
   },
-  methods: {}
+
+  methods: {
+    goback() {
+      this.$router.go(-1);
+    }
+  },
+
+  created() {
+    this.flag = this.$route.path === "/home" ? false : true;
+  },
+
+  watch: {
+    "$route.path": function(newVal) {
+      if (newVal === "/home") {
+        this.flag = false;
+      } else {
+        this.flag = true;
+      }
+    }
+  }
 };
 </script>
 
 
 <style lang="scss" scoped>
 header.mint-header.is-fixed {
-    z-index: 99;
+  z-index: 99;
 }
 .APPcontent {
   padding-top: 40px;
